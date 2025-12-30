@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keub User Flow 1: New User Rental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        }
+
+
+        .step-number {
+            min-width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 900;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+
+        .step-content {
+            flex: 1;
+        }
+
+
+        .step-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+
+        .step-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+
+        .mockup-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+
+        /* Phone Mockup */
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+
+        .phone-notch {
+            width: 150px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .screen-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+
+        .screen-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+
+        .mockup-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        .mockup-button.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Nunito', sans-serif;
+            margin-bottom: 12px;
+        }
+
+
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+
+        .otp-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+
+        .otp-box {
+            width: 50px;
+            height: 60px;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+
+        .locker-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+
+        .locker-box {
+            aspect-ratio: 1;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+
+        .locker-box.available {
+            background: #e8f5e9;
+            border-color: #4caf50;
+        }
+
+
+        .locker-box.available:hover {
+            background: #4caf50;
+            color: white;
+        }
+
+
+        .locker-box.occupied {
+            background: #ffebee;
+            border-color: #f44336;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+
+        .locker-box.selected {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+            transform: scale(1.05);
+        }
+
+
+        .locker-number {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+
+        .locker-status {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+
+        .pricing-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+
+        .pricing-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+
+        .pricing-row.total {
+            border-top: 2px solid #ddd;
+            padding-top: 10px;
+            margin-top: 10px;
+            font-weight: 800;
+            font-size: 20px;
+            color: #667eea;
+        }
+
+
+        .pin-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+
+        .pin-number {
+            font-size: 48px;
+            font-weight: 900;
+            color: #667eea;
+            letter-spacing: 15px;
+            margin: 15px 0;
+        }
+
+
+        .success-icon {
+            font-size: 80px;
+            text-align: center;
+            margin: 30px 0;
+        }
+
+
+        .arrow-down {
+            text-align: center;
+            color: #667eea;
+            font-size: 48px;
+            margin: -20px 0;
+            font-weight: 900;
+        }
+
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #f8f9fa;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            margin: 20px auto;
+        }
+
+
+        @media (max-width: 768px) {
+            .flow-step {
+                flex-direction: column;
+            }
+
+
+            .mockup-container {
+                justify-content: center;
+            }
+
+
+            .phone-mockup {
+                width: 280px;
+                height: 560px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Keub User Flow: New User Rental</h1>
+            <h2>From QR Code Scan to Active Rental</h2>
+        </div>
+
+
+        <div class="flow-container">
+            <!-- Step 1: QR Code Scan -->
+            <div class="flow-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">📱 User Scans QR Code</div>
+                    <div class="step-description">
+                        User approaches the Keub locker board at a physical location (e.g., train station, shopping mall, event venue) and scans the QR code displayed prominently on the locker unit.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+                                    <div class="qr-code">📷</div>
+                                    <h3 style="font-size: 20px; font-weight: 700; color: #2c3e50; margin: 20px 0 10px;">Scan QR Code</h3>
+                                    <p style="color: #666; font-size: 14px; padding: 0 20px;">Point your camera at the QR code on the Keub locker board</p>
+                                    <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 12px; width: 90%;">
+                                        <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Location</div>
+                                        <div style="font-size: 18px; font-weight: 700; color: #2c3e50;">📍 Downtown Station</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Technical Note:</strong> QR code contains location ID and opens the web app directly at app.keub.com/rent?loc=[location-id]
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 2: Landing Page -->
+            <div class="flow-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">🌐 Web App Landing Page</div>
+                    <div class="step-description">
+                        Browser opens to Keub mobile web app showing location details, pricing, and two options: continue with web or download the native app for enhanced experience.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 24px; font-weight: 800;">Downtown Station</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">123 Main St, City Center</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin-bottom: 25px;">
+                                        <div style="font-size: 60px; margin-bottom: 10px;">🔒</div>
+                                        <h4 style="font-size: 18px; font-weight: 700; color: #2c3e50; margin-bottom: 5px;">Secure Locker Storage</h4>
+                                        <p style="font-size: 14px; color: #666;">Rent by the hour, pay for what you use</p>
+                                    </div>
+                                    
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px;">
+                                        <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; text-align: center;">
+                                            <div style="font-size: 12px; color: #4caf50; margin-bottom: 5px;">Hourly Rate</div>
+                                            <div style="font-size: 24px; font-weight: 800; color: #2e7d32;">$2.00</div>
+                                        </div>
+                                        <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; text-align: center;">
+                                            <div style="font-size: 12px; color: #4caf50; margin-bottom: 5px;">Available</div>
+                                            <div style="font-size: 24px; font-weight: 800; color: #2e7d32;">8 Lockers</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; text-align: center;">
+                                        📱 <strong>Download our app</strong> for faster access<br>
+                                        <div style="margin-top: 8px; display: flex; gap: 8px; justify-content: center;">
+                                            <span style="padding: 4px 12px; background: white; border-radius: 20px; font-size: 11px; font-weight: 700;">🍎 iOS</span>
+                                            <span style="padding: 4px 12px; background: white; border-radius: 20px; font-size: 11px; font-weight: 700;">🤖 Android</span>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mockup-button">
+                                        Continue with Web →
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 3: Phone Number Entry -->
+            <div class="flow-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">📞 Enter Phone Number</div>
+                    <div class="step-description">
+                        User enters their phone number for authentication. This will be used to send OTP and associate the rental with their account.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Verify Your Phone</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">We'll send you a verification code</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 30px 0;">
+                                        <div style="font-size: 60px; margin-bottom: 10px;">📱</div>
+                                        <p style="font-size: 14px; color: #666; margin-bottom: 25px;">
+                                            Enter your mobile number to continue.<br>
+                                            We'll send you a one-time code.
+                                        </p>
+                                    </div>
+
+
+                                    <input type="tel" class="input-field" placeholder="+1 (555) 123-4567" value="+1 (555) 123-4567" style="text-align: center; font-size: 18px; font-weight: 600;">
+
+
+                                    <div style="font-size: 12px; color: #999; text-align: center; margin-bottom: 20px;">
+                                        Standard SMS rates may apply
+                                    </div>
+
+
+                                    <div class="mockup-button">
+                                        Send Verification Code
+                                    </div>
+
+
+                                    <div style="text-align: center; margin-top: 20px; font-size: 13px; color: #666;">
+                                        By continuing, you agree to our<br>
+                                        <span style="color: #667eea; font-weight: 600;">Terms of Service</span> and <span style="color: #667eea; font-weight: 600;">Privacy Policy</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Backend:</strong> System validates phone number format and triggers Twilio to send 6-digit OTP with 5-minute expiry.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 4: OTP Verification -->
+            <div class="flow-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">🔐 Enter OTP Code</div>
+                    <div class="step-description">
+                        User receives SMS with 6-digit verification code and enters it to authenticate. System creates or retrieves user session.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Enter Code</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">Sent to +1 (555) 123-4567</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 30px 0;">
+                                        <p style="font-size: 14px; color: #666; margin-bottom: 25px;">
+                                            Enter the 6-digit code we sent to your phone
+                                        </p>
+                                    </div>
+
+
+                                    <div class="otp-container">
+                                        <div class="otp-box">5</div>
+                                        <div class="otp-box">7</div>
+                                        <div class="otp-box">3</div>
+                                        <div class="otp-box">8</div>
+                                        <div class="otp-box">9</div>
+                                        <div class="otp-box">2</div>
+                                    </div>
+
+
+                                    <div style="text-align: center; margin: 20px 0;">
+                                        <p style="font-size: 13px; color: #999;">Code expires in <span style="color: #667eea; font-weight: 700;">4:38</span></p>
+                                    </div>
+
+
+                                    <div class="mockup-button" style="margin-top: 30px;">
+                                        Verify Code
+                                    </div>
+
+
+                                    <div style="text-align: center; margin-top: 15px;">
+                                        <span style="font-size: 14px; color: #666;">Didn't receive code? </span>
+                                        <span style="font-size: 14px; color: #667eea; font-weight: 700; cursor: pointer;">Resend</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Security:</strong> OTP is validated against hashed value in database. After 3 failed attempts, user must request new code.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 5: Select Locker -->
+            <div class="flow-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <div class="step-title">🗄️ Select Available Locker</div>
+                    <div class="step-description">
+                        User sees real-time grid of all lockers at this location. Available lockers are shown in green, occupied in red, and user can tap to select their preferred locker.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Choose Your Locker</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">8 available • $2.00/hour</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="margin-bottom: 20px;">
+                                        <div style="display: flex; gap: 15px; justify-content: center; font-size: 13px; margin-bottom: 15px;">
+                                            <div><span style="display: inline-block; width: 15px; height: 15px; background: #4caf50; border-radius: 3px; margin-right: 5px;"></span>Available</div>
+                                            <div><span style="display: inline-block; width: 15px; height: 15px; background: #f44336; border-radius: 3px; margin-right: 5px;"></span>Occupied</div>
+                                            <div><span style="display: inline-block; width: 15px; height: 15px; background: #667eea; border-radius: 3px; margin-right: 5px;"></span>Selected</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="locker-grid">
+                                        <div class="locker-box available">
+                                            <div class="locker-number">A1</div>
+                                            <div class="locker-status">Available</div>
+                                        </div>
+                                        <div class="locker-box occupied">
+                                            <div class="locker-number">A2</div>
+                                            <div class="locker-status">Occupied</div>
+                                        </div>
+                                        <div class="locker-box available">
+                                            <div class="locker-number">A3</div>
+                                            <div class="locker-status">Available</div>
+                                        </div>
+                                        <div class="locker-box selected">
+                                            <div class="locker-number">A4</div>
+                                            <div class="locker-status">✓ Selected</div>
+                                        </div>
+                                        <div class="locker-box available">
+                                            <div class="locker-number">A5</div>
+                                            <div class="locker-status">Available</div>
+                                        </div>
+                                        <div class="locker-box occupied">
+                                            <div class="locker-number">A6</div>
+                                            <div class="locker-status">Occupied</div>
+                                        </div>
+                                        <div class="locker-box available">
+                                            <div class="locker-number">B1</div>
+                                            <div class="locker-status">Available</div>
+                                        </div>
+                                        <div class="locker-box available">
+                                            <div class="locker-number">B2</div>
+                                            <div class="locker-status">Available</div>
+                                        </div>
+                                        <div class="locker-box occupied">
+                                            <div class="locker-number">B3</div>
+                                            <div class="locker-status">Occupied</div>
+                                        </div>
+                                    </div>
+
+
+                                    <div style="background: #e3f2fd; padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; text-align: center; color: #1565c0;">
+                                        <strong>Locker A4 Selected</strong><br>
+                                        Standard size • Medium height
+                                    </div>
+
+
+                                    <div class="mockup-button">
+                                        Continue to Payment →
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Real-time Updates:</strong> Locker availability syncs with PitneyBowes API every 5 seconds. When user selects locker, 5-minute reservation hold is placed.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 6: Review & Payment -->
+            <div class="flow-step">
+                <div class="step-number">6</div>
+                <div class="step-content">
+                    <div class="step-title">💳 Choose Duration & Pay</div>
+                    <div class="step-description">
+                        User selects estimated rental duration (or can choose "Pay as you go"), reviews pricing, and enters payment information. System places authorization hold for estimated amount.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Payment</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">Locker A4 • Downtown Station</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="margin-bottom: 20px;">
+                                        <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 10px;">Estimated Duration</div>
+                                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;">
+                                            <div style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; text-align: center; cursor: pointer;">
+                                                <div style="font-weight: 700;">2 hrs</div>
+                                                <div style="font-size: 12px; color: #666;">$4.00</div>
+                                            </div>
+                                            <div style="padding: 12px; border: 2px solid #667eea; border-radius: 8px; text-align: center; background: #f0f4ff; cursor: pointer;">
+                                                <div style="font-weight: 700; color: #667eea;">4 hrs</div>
+                                                <div style="font-size: 12px; color: #667eea;">$8.00</div>
+                                            </div>
+                                            <div style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; text-align: center; cursor: pointer;">
+                                                <div style="font-weight: 700;">8 hrs</div>
+                                                <div style="font-size: 12px; color: #666;">$16.00</div>
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 12px; color: #666; text-align: center; margin-top: 8px;">
+                                            You'll only pay for actual time used
+                                        </div>
+                                    </div>
+
+
+                                    <div class="pricing-card">
+                                        <div class="pricing-row">
+                                            <span>Locker A4</span>
+                                            <span>$2.00/hr</span>
+                                        </div>
+                                        <div class="pricing-row">
+                                            <span>Estimated duration</span>
+                                            <span>4 hours</span>
+                                        </div>
+                                        <div class="pricing-row total">
+                                            <span>Authorization Hold</span>
+                                            <span>$8.00</span>
+                                        </div>
+                                        <div style="font-size: 12px; color: #666; margin-top: 10px; text-align: center;">
+                                            Final charge based on actual usage
+                                        </div>
+                                    </div>
+
+
+                                    <input type="text" class="input-field" placeholder="Card number" value="•••• •••• •••• 4242">
+                                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                        <input type="text" class="input-field" placeholder="MM/YY" value="12/26">
+                                        <input type="text" class="input-field" placeholder="CVV" value="•••">
+                                    </div>
+
+
+                                    <div class="mockup-button" style="margin-top: 15px;">
+                                        Authorize & Start Rental
+                                    </div>
+
+
+                                    <div style="text-align: center; margin-top: 12px; font-size: 12px; color: #999;">
+                                        🔒 Secured by Stripe • PCI-DSS Compliant
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Payment Flow:</strong> Stripe places authorization hold (not charge). Actual charge is captured when rental ends based on time used.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 7: Set PIN -->
+            <div class="flow-step">
+                <div class="step-number">7</div>
+                <div class="step-content">
+                    <div class="step-title">🔢 Set Your PIN</div>
+                    <div class="step-description">
+                        User creates a 4-digit PIN that will be used to open the locker during the rental period. PIN is shown on success screen and also sent via SMS.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Create Your PIN</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">You'll need this to access your locker</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 30px 0 20px;">
+                                        <div style="font-size: 48px; margin-bottom: 15px;">🔐</div>
+                                        <p style="font-size: 14px; color: #666; padding: 0 20px;">
+                                            Choose a 4-digit PIN that you'll remember.<br>
+                                            Don't use common patterns like 1234.
+                                        </p>
+                                    </div>
+
+
+                                    <div class="otp-container" style="margin-bottom: 25px;">
+                                        <div class="otp-box">5</div>
+                                        <div class="otp-box">8</div>
+                                        <div class="otp-box">3</div>
+                                        <div class="otp-box">7</div>
+                                    </div>
+
+
+                                    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin: 20px 0; font-size: 13px; text-align: center; color: #856404;">
+                                        ⚠️ <strong>Important:</strong> Don't forget this PIN!<br>
+                                        You'll need it to open your locker.
+                                    </div>
+
+
+                                    <div class="mockup-button">
+                                        Confirm PIN & Open Locker
+                                    </div>
+
+
+                                    <div style="text-align: center; margin-top: 15px; font-size: 13px; color: #666;">
+                                        We'll also send your PIN via SMS
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>PIN Security:</strong> PIN is hashed with bcrypt before storage. System validates against common weak PINs (1234, 0000, etc.).
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 8: Success & Locker Opens -->
+            <div class="flow-step">
+                <div class="step-number">8</div>
+                <div class="step-content">
+                    <div class="step-title">✅ Rental Started - Locker Opens!</div>
+                    <div class="step-description">
+                        Payment authorized, rental started, and locker automatically opens via PitneyBowes API. User sees success screen with their PIN, locker info, and timer starts. User stores their belongings and closes the door.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-content" style="padding: 35px 25px; text-align: center;">
+                                    <div class="success-icon">🎉</div>
+                                    
+                                    <h2 style="font-size: 28px; font-weight: 800; color: #4caf50; margin-bottom: 10px;">Rental Started!</h2>
+                                    <p style="font-size: 14px; color: #666; margin-bottom: 30px;">Your locker is now opening...</p>
+
+
+                                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; margin-bottom: 25px;">
+                                        <div style="font-size: 16px; opacity: 0.9; margin-bottom: 8px;">Your Locker</div>
+                                        <div style="font-size: 48px; font-weight: 900; margin-bottom: 8px;">A4</div>
+                                        <div style="font-size: 14px; opacity: 0.9;">Downtown Station</div>
+                                    </div>
+
+
+                                    <div class="pin-display">
+                                        <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 8px;">Your PIN</div>
+                                        <div class="pin-number">5837</div>
+                                        <div style="font-size: 12px; color: #666;">Use this to access your locker anytime</div>
+                                    </div>
+
+
+                                    <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; margin: 20px 0; font-size: 13px; color: #2e7d32;">
+                                        ✓ Locker door is now OPEN<br>
+                                        Store your items and close the door to lock
+                                    </div>
+
+
+                                    <div style="background: #f8f9fa; padding: 15px; border-radius: 12px; margin-top: 20px;">
+                                        <div style="font-size: 12px; color: #666; margin-bottom: 5px;">Rental Time</div>
+                                        <div style="font-size: 24px; font-weight: 800; color: #667eea;">00:00:12</div>
+                                        <div style="font-size: 12px; color: #666;">Current charge: $0.00</div>
+                                    </div>
+
+
+                                    <div class="mockup-button" style="margin-top: 20px;">
+                                        View Active Rental →
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 18px; font-weight: 700;">Active Rental</h3>
+                                    <p style="font-size: 12px; opacity: 0.9;">Locker A4 • Downtown Station</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 25px 0;">
+                                        <div style="width: 100px; height: 100px; background: #667eea; color: white; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900;">
+                                            A4
+                                        </div>
+                                        <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Rental Duration</div>
+                                        <div style="font-size: 32px; font-weight: 800; color: #2c3e50; margin-bottom: 5px;">0h 15m</div>
+                                        <div style="font-size: 14px; color: #666;">Current Charge: $0.50</div>
+                                    </div>
+                                    
+                                    <div class="pin-display" style="margin: 20px 0;">
+                                        <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 10px;">Your PIN</div>
+                                        <div style="font-size: 36px; font-weight: 800; color: #667eea; letter-spacing: 10px; text-align: center;">5837</div>
+                                        <div style="font-size: 12px; color: #666; text-align: center; margin-top: 5px;">Use this PIN to access your locker</div>
+                                    </div>
+                                    
+                                    <div class="mockup-button">🔓 Open Locker</div>
+                                    <div class="mockup-button secondary">End Rental</div>
+
+
+                                    <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin-top: 15px; font-size: 12px; text-align: center;">
+                                        💡 <strong>Tip:</strong> You can open your locker anytime during your rental
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>System Flow:</strong> Payment authorized → Rental record created → PitneyBowes open command sent → Timer starts → SMS confirmation sent with PIN and rental details.
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div style="background: white; padding: 40px; border-radius: 20px; margin-top: 50px; text-align: center;">
+            <h2 style="font-size: 32px; font-weight: 800; color: #2c3e50; margin-bottom: 15px;">✅ Rental Complete!</h2>
+            <p style="font-size: 18px; color: #666; line-height: 1.8;">
+                User now has an active rental and can open their locker anytime using:<br>
+                <strong>• Mobile/Web app "Open Locker" button</strong><br>
+                <strong>• On-location kiosk with phone number + PIN</strong><br>
+                <strong>• QR code generated in the app</strong>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
