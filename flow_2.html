@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keub User Flow 2: Returning User - End/Extend Rental</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+
+        .flow-branch {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            align-items: flex-start;
+        }
+
+
+        .branch-divider {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+
+        .branch-label {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+
+        .flow-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.25);
+        }
+
+
+        .step-number {
+            min-width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: 900;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+
+        .step-content {
+            flex: 1;
+        }
+
+
+        .step-title {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+
+        .step-description {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+
+        .mockup-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+
+        /* Phone Mockup */
+        .phone-mockup {
+            width: 300px;
+            height: 600px;
+            background: #1a1a1a;
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+
+        .phone-notch {
+            width: 150px;
+            height: 25px;
+            background: #1a1a1a;
+            border-radius: 0 0 20px 20px;
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .screen-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px 20px;
+            text-align: center;
+        }
+
+
+        .screen-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+
+        .mockup-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+
+        .mockup-button.secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+
+        .mockup-button.danger {
+            background: white;
+            color: #f44336;
+            border: 2px solid #f44336;
+        }
+
+
+        .mockup-button.success {
+            background: #4caf50;
+            color: white;
+            border: none;
+        }
+
+
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+
+
+        .pin-display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+
+        .pin-number {
+            font-size: 36px;
+            font-weight: 900;
+            color: #667eea;
+            letter-spacing: 10px;
+            margin: 10px 0;
+        }
+
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+
+        .stat-row.large {
+            font-size: 18px;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+
+        .arrow-down {
+            text-align: center;
+            color: #667eea;
+            font-size: 48px;
+            margin: -20px 0;
+            font-weight: 900;
+        }
+
+
+        .decision-point {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 30px 0;
+            box-shadow: 0 10px 40px rgba(240, 147, 251, 0.4);
+        }
+
+
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+
+        .success-icon {
+            font-size: 60px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+
+        .receipt {
+            background: white;
+            border: 2px dashed #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+
+        .receipt-row:last-child {
+            border-bottom: none;
+        }
+
+
+        .receipt-total {
+            font-weight: 800;
+            font-size: 18px;
+            color: #667eea;
+            padding-top: 10px;
+            border-top: 2px solid #667eea;
+        }
+
+
+        @media (max-width: 768px) {
+            .flow-step {
+                flex-direction: column;
+            }
+
+
+            .flow-branch {
+                flex-direction: column;
+            }
+
+
+            .mockup-container {
+                justify-content: center;
+            }
+
+
+            .phone-mockup {
+                width: 280px;
+                height: 560px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔄 Keub User Flow: Returning User</h1>
+            <h2>End or Extend Active Rental</h2>
+        </div>
+
+
+        <div class="flow-container">
+            <!-- Step 1: Re-entry -->
+            <div class="flow-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">📱 User Returns</div>
+                    <div class="step-description">
+                        User comes back to access their locker. They can either:<br>
+                        • Scan the QR code again (which detects active rental and goes directly to dashboard)<br>
+                        • Log back in with their phone number + OTP<br>
+                        • Open the saved app/PWA on their device
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 22px; font-weight: 700;">Welcome Back!</h3>
+                                    <p style="font-size: 14px; opacity: 0.9;">+1 (555) 123-4567</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 30px 0;">
+                                        <div style="font-size: 60px; margin-bottom: 15px;">👋</div>
+                                        <h3 style="font-size: 20px; font-weight: 700; color: #2c3e50; margin-bottom: 10px;">Quick Access</h3>
+                                        <p style="font-size: 14px; color: #666;">
+                                            We detected an active rental on your account
+                                        </p>
+                                    </div>
+
+
+                                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; margin: 25px 0;">
+                                        <div style="font-size: 14px; opacity: 0.9; margin-bottom: 5px;">Active Rental</div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <div>
+                                                <div style="font-size: 36px; font-weight: 900;">A4</div>
+                                                <div style="font-size: 13px; opacity: 0.9;">Downtown Station</div>
+                                            </div>
+                                            <div style="text-align: right;">
+                                                <div style="font-size: 24px; font-weight: 800;">2h 45m</div>
+                                                <div style="font-size: 13px; opacity: 0.9;">$5.50 current</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mockup-button">
+                                        View Active Rental →
+                                    </div>
+
+
+                                    <div style="text-align: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                                        <p style="font-size: 13px; color: #666; margin-bottom: 10px;">Or start a new rental</p>
+                                        <div class="mockup-button secondary">
+                                            Scan QR Code for New Rental
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Smart Detection:</strong> System automatically detects if user has active rental and shows quick access. QR code scan with active rental bypasses login and goes straight to dashboard.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="arrow-down">↓</div>
+
+
+            <!-- Step 2: Active Rental Dashboard -->
+            <div class="flow-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">📊 Active Rental Dashboard</div>
+                    <div class="step-description">
+                        User sees their active rental with real-time timer, current charge, PIN reminder, and action buttons. The rental is actively counting and charges are accumulating based on hourly rate.
+                    </div>
+                    <div class="mockup-container">
+                        <div class="phone-mockup">
+                            <div class="phone-notch"></div>
+                            <div class="phone-screen">
+                                <div class="screen-header">
+                                    <h3 style="font-size: 18px; font-weight: 700;">Active Rental</h3>
+                                    <p style="font-size: 12px; opacity: 0.9;">Downtown Station</p>
+                                </div>
+                                <div class="screen-content">
+                                    <div style="text-align: center; margin: 25px 0;">
+                                        <div style="width: 100px; height: 100px; background: #667eea; color: white; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900;">
+                                            A4
+                                        </div>
+                                        <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Rental Duration</div>
+                                        <div style="font-size: 36px; font-weight: 800; color: #2c3e50; margin-bottom: 5px;">2h 45m</div>
+                                        <div style="font-size: 16px; color: #667eea; font-weight: 700;">Current Charge: $5.50</div>
+                                    </div>
+
+
+                                    <div class="stat-card">
+                                        <div class="stat-row">
+                                            <span style="color: #666;">Started</span>
+                                            <span style="font-weight: 700;">2:15 PM</span>
+                                        </div>
+                                        <div class="stat-row">
+                                            <span style="color: #666;">Rate</span>
+                                            <span style="font-weight: 700;">$2.00/hour</span>
+                                        </div>
+                                        <div class="stat-row">
+                                            <span style="color: #666;">Estimated time</span>
+                                            <span style="font-weight: 700;">4 hours</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="pin-display" style="margin: 20px 0;">
+                                        <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 5px;">Your PIN</div>
+                                        <div class="pin-number">5837</div>
+                                        <div style="font-size: 12px; color: #666;">Use this to access your locker</div>
+                                    </div>
+                                    
+                                    <div class="mockup-button">🔓 Open Locker Now</div>
+                                    <div class="mockup-button secondary" style="background: #fff3cd; color: #856404; border-color: #ffc107;">
+                                        ⏱️ Extend Rental Time
+                                    </div>
+                                    <div class="mockup-button danger">
+                                        ❌ End Rental
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-box">
+                        <strong>Real-time Updates:</strong> Timer and charges update every second. "Open Locker" button sends command to PitneyBowes API instantly.
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="decision-point">
+                🔀 User Decision Point: End or Extend?
+            </div>
+
+
+            <!-- Branch Layout -->
+            <div class="flow-branch">
+                <!-- LEFT BRANCH: END RENTAL -->
+                <div class="branch-divider">
+                    <div class="branch-label">← Path A: End Rental</div>
+
+
+                    <!-- Step 3A: Confirm End -->
+                    <div class="flow-step">
+                        <div class="step-number">3A</div>
+                        <div class="step-content">
+                            <div class="step-title">⛔ Confirm End Rental</div>
+                            <div class="step-description">
+                                User taps "End Rental" and system shows confirmation screen with final charge calculation.
+                            </div>
+                            <div class="mockup-container">
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="screen-header">
+                                            <h3 style="font-size: 22px; font-weight: 700;">End Rental?</h3>
+                                            <p style="font-size: 14px; opacity: 0.9;">Locker A4</p>
+                                        </div>
+                                        <div class="screen-content">
+                                            <div style="text-align: center; margin: 25px 0;">
+                                                <div style="font-size: 60px; margin-bottom: 15px;">🔚</div>
+                                                <p style="font-size: 14px; color: #666; padding: 0 20px;">
+                                                    Your locker will open and your rental will be finalized. Make sure to retrieve all your belongings.
+                                                </p>
+                                            </div>
+
+
+                                            <div class="stat-card">
+                                                <div style="font-size: 16px; font-weight: 700; color: #2c3e50; margin-bottom: 15px; text-align: center;">Rental Summary</div>
+                                                <div class="stat-row">
+                                                    <span>Duration</span>
+                                                    <span style="font-weight: 700;">2h 45m</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Hourly Rate</span>
+                                                    <span style="font-weight: 700;">$2.00</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Authorization Hold</span>
+                                                    <span style="font-weight: 700; text-decoration: line-through;">$8.00</span>
+                                                </div>
+                                                <div class="stat-row large" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid #667eea;">
+                                                    <span>Final Charge</span>
+                                                    <span>$5.50</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 13px; text-align: center; color: #856404;">
+                                                💳 You'll be charged $5.50<br>
+                                                (saving $2.50 from authorization)
+                                            </div>
+
+
+                                            <div class="mockup-button" style="background: #f44336;">
+                                                Confirm - End Rental
+                                            </div>
+                                            <div class="mockup-button secondary">
+                                                Cancel - Keep Rental Active
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="arrow-down">↓</div>
+
+
+                    <!-- Step 4A: Locker Opens & Session Ends -->
+                    <div class="flow-step">
+                        <div class="step-number">4A</div>
+                        <div class="step-content">
+                            <div class="step-title">✅ Rental Ended - Locker Opens</div>
+                            <div class="step-description">
+                                Payment is captured for actual usage time, locker automatically opens via PitneyBowes API, and user can retrieve their belongings. Receipt is generated and sent via SMS/email.
+                            </div>
+                            <div class="mockup-container">
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="screen-content" style="padding: 30px 25px; text-align: center;">
+                                            <div class="success-icon">✅</div>
+                                            
+                                            <h2 style="font-size: 28px; font-weight: 800; color: #4caf50; margin-bottom: 10px;">Rental Ended!</h2>
+                                            <p style="font-size: 14px; color: #666; margin-bottom: 25px;">Your locker is now opening...</p>
+
+
+                                            <div style="background: #e8f5e9; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                                                <div style="font-size: 48px; margin-bottom: 10px;">🔓</div>
+                                                <div style="font-size: 16px; font-weight: 700; color: #2e7d32;">Locker Door OPEN</div>
+                                                <div style="font-size: 13px; color: #666; margin-top: 5px;">Please retrieve all your items</div>
+                                            </div>
+
+
+                                            <div class="receipt">
+                                                <div style="text-align: center; margin-bottom: 15px;">
+                                                    <div style="font-size: 18px; font-weight: 800; color: #2c3e50;">Receipt</div>
+                                                    <div style="font-size: 12px; color: #999;">Rental #12847</div>
+                                                </div>
+                                                <div class="receipt-row">
+                                                    <span style="font-size: 13px;">Locker A4</span>
+                                                    <span style="font-size: 13px; font-weight: 600;">Downtown Station</span>
+                                                </div>
+                                                <div class="receipt-row">
+                                                    <span style="font-size: 13px;">Duration</span>
+                                                    <span style="font-size: 13px; font-weight: 600;">2h 45m</span>
+                                                </div>
+                                                <div class="receipt-row">
+                                                    <span style="font-size: 13px;">Rate</span>
+                                                    <span style="font-size: 13px; font-weight: 600;">$2.00/hour</span>
+                                                </div>
+                                                <div class="receipt-row receipt-total">
+                                                    <span>Total Charged</span>
+                                                    <span>$5.50</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 12px; text-align: center; color: #1565c0;">
+                                                📧 Receipt sent to your email<br>
+                                                💬 SMS confirmation sent
+                                            </div>
+
+
+                                            <div class="mockup-button">
+                                                Download Receipt
+                                            </div>
+                                            <div class="mockup-button secondary">
+                                                Start New Rental
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <strong>Payment Completion:</strong> Stripe captures final charge ($5.50), releases unused authorization ($2.50). User card shows: Authorization $8.00 → Charge $5.50 + Release $2.50.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- RIGHT BRANCH: EXTEND RENTAL -->
+                <div class="branch-divider">
+                    <div class="branch-label">Path B: Extend Rental →</div>
+
+
+                    <!-- Step 3B: Choose Extension -->
+                    <div class="flow-step">
+                        <div class="step-number">3B</div>
+                        <div class="step-content">
+                            <div class="step-title">⏱️ Select Extension Time</div>
+                            <div class="step-description">
+                                User taps "Extend Rental" and chooses how much more time they need. System calculates additional authorization hold required.
+                            </div>
+                            <div class="mockup-container">
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="screen-header">
+                                            <h3 style="font-size: 22px; font-weight: 700;">Extend Rental</h3>
+                                            <p style="font-size: 14px; opacity: 0.9;">Add more time to your rental</p>
+                                        </div>
+                                        <div class="screen-content">
+                                            <div class="stat-card" style="margin-bottom: 20px;">
+                                                <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 10px; text-align: center;">Current Rental</div>
+                                                <div class="stat-row">
+                                                    <span>Time elapsed</span>
+                                                    <span style="font-weight: 700;">2h 45m</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Current charge</span>
+                                                    <span style="font-weight: 700;">$5.50</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Original estimate</span>
+                                                    <span style="font-weight: 700; text-decoration: line-through;">4 hours</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div style="margin-bottom: 20px;">
+                                                <div style="font-size: 16px; font-weight: 700; color: #2c3e50; margin-bottom: 12px;">Add More Time</div>
+                                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                                    <div style="padding: 20px; border: 2px solid #667eea; border-radius: 12px; text-align: center; background: #f0f4ff; cursor: pointer;">
+                                                        <div style="font-size: 24px; font-weight: 800; color: #667eea;">+2 hrs</div>
+                                                        <div style="font-size: 13px; color: #667eea; margin-top: 5px;">$4.00</div>
+                                                    </div>
+                                                    <div style="padding: 20px; border: 2px solid #e0e0e0; border-radius: 12px; text-align: center; cursor: pointer;">
+                                                        <div style="font-size: 24px; font-weight: 800;">+4 hrs</div>
+                                                        <div style="font-size: 13px; color: #666; margin-top: 5px;">$8.00</div>
+                                                    </div>
+                                                    <div style="padding: 20px; border: 2px solid #e0e0e0; border-radius: 12px; text-align: center; cursor: pointer;">
+                                                        <div style="font-size: 24px; font-weight: 800;">+6 hrs</div>
+                                                        <div style="font-size: 13px; color: #666; margin-top: 5px;">$12.00</div>
+                                                    </div>
+                                                    <div style="padding: 20px; border: 2px solid #e0e0e0; border-radius: 12px; text-align: center; cursor: pointer;">
+                                                        <div style="font-size: 24px; font-weight: 800;">+8 hrs</div>
+                                                        <div style="font-size: 13px; color: #666; margin-top: 5px;">$16.00</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div style="background: #fff3cd; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 13px; text-align: center; color: #856404;">
+                                                💳 Additional authorization hold: <strong>$4.00</strong><br>
+                                                New total estimate: 6 hours ($12.00)
+                                            </div>
+
+
+                                            <div class="mockup-button">
+                                                Extend by 2 Hours
+                                            </div>
+                                            <div class="mockup-button secondary">
+                                                Cancel
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="arrow-down">↓</div>
+
+
+                    <!-- Step 4B: Extension Confirmed -->
+                    <div class="flow-step">
+                        <div class="step-number">4B</div>
+                        <div class="step-content">
+                            <div class="step-title">✅ Rental Extended</div>
+                            <div class="step-description">
+                                Additional authorization hold placed on payment method, rental timer continues with new estimate. User can continue using locker for extended period.
+                            </div>
+                            <div class="mockup-container">
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="screen-content" style="padding: 30px 25px; text-align: center;">
+                                            <div class="success-icon">🎉</div>
+                                            
+                                            <h2 style="font-size: 28px; font-weight: 800; color: #4caf50; margin-bottom: 10px;">Rental Extended!</h2>
+                                            <p style="font-size: 14px; color: #666; margin-bottom: 25px;">You now have 2 more hours</p>
+
+
+                                            <div class="success-box">
+                                                <div style="font-size: 16px; font-weight: 700; color: #2e7d32; margin-bottom: 10px;">New Estimate</div>
+                                                <div style="display: flex; justify-content: space-around; text-align: center;">
+                                                    <div>
+                                                        <div style="font-size: 12px; color: #666;">Previous</div>
+                                                        <div style="font-size: 20px; font-weight: 800; text-decoration: line-through; color: #999;">4 hrs</div>
+                                                    </div>
+                                                    <div style="font-size: 24px; color: #4caf50;">→</div>
+                                                    <div>
+                                                        <div style="font-size: 12px; color: #666;">New</div>
+                                                        <div style="font-size: 20px; font-weight: 800; color: #4caf50;">6 hrs</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="stat-card">
+                                                <div class="stat-row">
+                                                    <span>Time so far</span>
+                                                    <span style="font-weight: 700;">2h 45m</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Time remaining</span>
+                                                    <span style="font-weight: 700; color: #4caf50;">~3h 15m</span>
+                                                </div>
+                                                <div class="stat-row">
+                                                    <span>Current charge</span>
+                                                    <span style="font-weight: 700;">$5.50</span>
+                                                </div>
+                                                <div class="stat-row large">
+                                                    <span>New authorization</span>
+                                                    <span>$12.00</span>
+                                                </div>
+                                            </div>
+
+
+                                            <div style="background: #e3f2fd; padding: 12px; border-radius: 8px; margin: 15px 0; font-size: 12px; text-align: center; color: #1565c0;">
+                                                💳 Hold increased: $8.00 → $12.00<br>
+                                                💬 Confirmation SMS sent
+                                            </div>
+
+
+                                            <div class="mockup-button">
+                                                Back to Active Rental
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="phone-mockup">
+                                    <div class="phone-notch"></div>
+                                    <div class="phone-screen">
+                                        <div class="screen-header">
+                                            <h3 style="font-size: 18px; font-weight: 700;">Active Rental</h3>
+                                            <p style="font-size: 12px; opacity: 0.9;">Extended • Locker A4</p>
+                                        </div>
+                                        <div class="screen-content">
+                                            <div style="text-align: center; margin: 25px 0;">
+                                                <div style="width: 100px; height: 100px; background: #667eea; color: white; border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: 900; position: relative;">
+                                                    A4
+                                                    <div style="position: absolute; top: -5px; right: -5px; width: 30px; height: 30px; background: #4caf50; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 3px solid white;">
+                                                        ✓
+                                                    </div>
+                                                </div>
+                                                <div style="font-size: 14px; color: #666; margin-bottom: 5px;">Rental Duration</div>
+                                                <div style="font-size: 36px; font-weight: 800; color: #2c3e50; margin-bottom: 5px;">2h 46m</div>
+                                                <div style="font-size: 16px; color: #667eea; font-weight: 700;">Current: $5.52 • Est: 6 hrs</div>
+                                            </div>
+                                            
+                                            <div style="background: #e8f5e9; padding: 15px; border-radius: 12px; margin: 15px 0; text-align: center;">
+                                                <div style="font-size: 13px; color: #2e7d32; font-weight: 700;">✓ Extended by 2 hours</div>
+                                                <div style="font-size: 12px; color: #666; margin-top: 3px;">~3h 14m remaining</div>
+                                            </div>
+
+
+                                            <div class="pin-display" style="margin: 20px 0;">
+                                                <div style="font-size: 14px; font-weight: 700; color: #2c3e50; margin-bottom: 5px;">Your PIN</div>
+                                                <div class="pin-number">5837</div>
+                                            </div>
+                                            
+                                            <div class="mockup-button">🔓 Open Locker Now</div>
+                                            <div class="mockup-button secondary" style="background: #fff3cd; color: #856404; border-color: #ffc107;">
+                                                ⏱️ Extend Again
+                                            </div>
+                                            <div class="mockup-button danger">
+                                                ❌ End Rental
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="info-box">
+                                <strong>Payment Flow:</strong> Stripe places additional $4.00 authorization hold. Total authorization: $12.00. Rental continues with updated estimate. User can extend multiple times if needed.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="background: white; padding: 40px; border-radius: 20px; margin-top: 50px;">
+            <h2 style="font-size: 32px; font-weight: 800; color: #2c3e50; margin-bottom: 20px; text-align: center;">🎯 Flow Summary</h2>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;">
+                <div style="border: 2px solid #f44336; border-radius: 15px; padding: 25px;">
+                    <h3 style="font-size: 20px; font-weight: 800; color: #f44336; margin-bottom: 15px;">❌ End Rental Path</h3>
+                    <ul style="color: #666; line-height: 2;">
+                        <li>User confirms end rental</li>
+                        <li>Final charge calculated</li>
+                        <li>Payment captured (actual usage)</li>
+                        <li>Locker opens automatically</li>
+                        <li>Receipt generated & sent</li>
+                        <li>Session ends</li>
+                    </ul>
+                </div>
+
+
+                <div style="border: 2px solid #4caf50; border-radius: 15px; padding: 25px;">
+                    <h3 style="font-size: 20px; font-weight: 800; color: #4caf50; margin-bottom: 15px;">⏱️ Extend Rental Path</h3>
+                    <ul style="color: #666; line-height: 2;">
+                        <li>User selects additional hours</li>
+                        <li>Additional authorization placed</li>
+                        <li>Rental estimate updated</li>
+                        <li>Timer continues running</li>
+                        <li>User can extend multiple times</li>
+                        <li>Session remains active</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div style="background: #e3f2fd; padding: 20px; border-radius: 12px; margin-top: 30px; text-align: center;">
+                <strong style="color: #1565c0;">💡 Key Features:</strong><br>
+                <span style="color: #1565c0; font-size: 14px;">
+                    Real-time charge updates • Pay only for time used • Flexible extension • Instant locker access • SMS/Email receipts
+                </span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
